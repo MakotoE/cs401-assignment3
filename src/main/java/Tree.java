@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class Tree<K extends Comparable<K>> {
+public class Tree<K extends Comparable<K>, V> {
 	private enum Color {
 		RED,
 		BLACK;
@@ -16,13 +16,12 @@ public class Tree<K extends Comparable<K>> {
 
 	private class Node {
 		final K key;
-		// value is the key of movie database
-		Integer value;
+		V value;
 		Node left;
 		Node right;
 		Color color;
 
-		Node(K key, Integer value, Color color) {
+		Node(K key, V value, Color color) {
 			this.key = key;
 			this.value = value;
 			this.left = null;
@@ -33,7 +32,7 @@ public class Tree<K extends Comparable<K>> {
 
 	private Node root;
 
-	public Optional<Integer> get(K key) {
+	public Optional<V> get(K key) {
 		Node curr = root;
 		while (curr != null) {
 			int cmp = key.compareTo(curr.key);
@@ -48,12 +47,12 @@ public class Tree<K extends Comparable<K>> {
 		return Optional.empty();
 	}
 
-	public void insert(K key, Integer value) {
+	public void insert(K key, V value) {
 		root = insert(root, key, value);
 		root.color = Color.BLACK;
 	}
 
-	private Node insert(Node root, K key, Integer value) {
+	private Node insert(Node root, K key, V value) {
 		if (root == null) {
 			return new Node(key, value, Color.RED);
 		}

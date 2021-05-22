@@ -19,7 +19,7 @@ public class QuickCheck {
 
 	@Property
 	public void tree(int[] items) {
-		var tree = new Tree<Integer>();
+		var tree = new Tree<Integer, Integer>();
 		for (var item : items) {
 			tree.insert(item, item);
 		}

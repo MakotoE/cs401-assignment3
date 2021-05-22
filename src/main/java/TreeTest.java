@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class TreeTest {
 	@Test
 	public void test() {
-		var tree = new Tree<String>();
+		var tree = new Tree<String, Integer>();
 		assertEquals(Optional.empty(), tree.get("a"));
 		tree.insert("a", 0);
 		assertEquals(Optional.of(0), tree.get("a"));
