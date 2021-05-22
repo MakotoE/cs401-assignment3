@@ -21,6 +21,7 @@ public class Parser {
 				);
 			}
 
+			@SuppressWarnings("OptionalGetWithoutIsPresent")
 			var movie = new Movie(
 				Integer.parseInt(fields[0]),
 				parseColor(fields[1]),
@@ -35,7 +36,7 @@ public class Parser {
 				fields[10],
 				fields[11],
 				parseInt(fields[12]),
-				Movie.Score.parse(fields[13])
+				Movie.Score.parse(fields[13]).get()
 			);
 			movies.add(movie);
 			++line;

@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Movie {
 	public int id;
 	public String color;
@@ -46,20 +48,31 @@ public class Movie {
 		this.score = score;
 	}
 
-	public static class Score {
+	public static class Score implements Comparable<Score> {
 		private final int n;
 
-		private Score(int n) {
+		public Score(int n) {
 			this.n = n;
 		}
 
-		public static Score parse(String s) {
-			return new Score(Integer.parseInt(s.replaceAll("\\.", "")));
+		public static Optional<Score> parse(String s) {
+			try {
+				return Optional.of(
+					new Score(Integer.parseInt(s.replaceAll("\\.", "")))
+				);
+			} catch (NumberFormatException ignored) {
+				return Optional.empty();
+			}
 		}
 
 		@Override
 		public String toString() {
 			return Float.toString((float)n / 10);
+		}
+
+		@Override
+		public int compareTo(Score o) {
+			return Integer.compare(n, o.n);
 		}
 	}
 }
