@@ -25,7 +25,7 @@ public class HashMap<K, V> {
 	}
 
 	public void insert(K key, V value) {
-		int hash = key.hashCode();
+		int hash = Math.abs(key.hashCode());
 		int i = 0;
 		while (true) {
 			int index = (hash + i * i) % array.size();
@@ -54,7 +54,7 @@ public class HashMap<K, V> {
 			return Optional.empty();
 		}
 
-		int hash = key.hashCode();
+		int hash = Math.abs(key.hashCode());
 		int i = 0;
 		while (true) {
 			int index = (hash + i * i) % array.size();

@@ -12,7 +12,7 @@ public class HashMapTest {
 			assertTrue(map.get(0).isEmpty());
 			map.insert(0, "a");
 			map.insert(0, "b");
-			map.insert(1, "c");
+			map.insert(-1, "c");
 			assertThrows(RuntimeException.class, () -> map.insert(2, "d"));
 		}
 		{
