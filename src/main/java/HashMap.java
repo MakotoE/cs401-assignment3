@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class HashMap {
-	private static class Entry {
-		final Integer key;
-		final Integer value;
+public class HashMap<K, V> {
+	private class Entry {
+		final K key;
+		final V value;
 
-		private Entry(Integer key, Integer value) {
+		private Entry(K key, V value) {
 			this.key = key;
 			this.value = value;
 		}
@@ -16,29 +18,38 @@ public class HashMap {
 	private int size;
 
 	public HashMap(int capacity) {
-		this.array = new ArrayList<>(capacity);
+		this.array = Stream.generate(Optional::<Entry>empty)
+			.limit((capacity + 1) * 2L)
+			.collect(Collectors.toCollection(ArrayList::new));
 		this.size = 0;
 	}
 
-	public void insert(Integer key, Integer value) {
-		if (this.size >= this.array.size() / 0.5) {
-			throw new RuntimeException("size exceeds array size * load factor");
-		}
-
+	public void insert(K key, V value) {
 		int hash = key.hashCode();
 		int i = 0;
 		while (true) {
 			int index = (hash + i * i) % array.size();
-			if (array.get(index).isEmpty() || array.get(index).get().key.equals(key)) {
-				array.add(index, Optional.of(new Entry(key, value)));
+			var entry = array.get(index);
+			if (entry.isEmpty()) {
+				if (this.size >= this.array.size()) {
+					throw new RuntimeException("size exceeds underlying array size");
+				}
+
+				array.set(index, Optional.of(new Entry(key, value)));
 				++size;
 				return;
 			}
+
+			if (entry.get().key.equals(key)) {
+				array.set(index, Optional.of(new Entry(key, value)));
+				return;
+			}
+
 			++i;
 		}
 	}
 
-	public Optional<Integer> get(Integer key) {
+	public Optional<V> get(K key) {
 		if (array.size() == 0) {
 			return Optional.empty();
 		}
@@ -47,12 +58,13 @@ public class HashMap {
 		int i = 0;
 		while (true) {
 			int index = (hash + i * i) % array.size();
-			if (array.get(index).isEmpty() || array.get(index).get().key.equals(key)) {
-				return Optional.of(array.get(index).get().value);
+			var entry = array.get(index);
+			if (entry.isEmpty() || i == array.size() + 1) {
+				return Optional.empty();
 			}
 
-			if (i == array.size()) {
-				return Optional.empty();
+			if (entry.get().key.equals(key)) {
+				return Optional.of(entry.get().value);
 			}
 
 			++i;
