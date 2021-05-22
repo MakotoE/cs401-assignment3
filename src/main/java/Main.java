@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Main {
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
@@ -27,7 +29,9 @@ public class Main {
 		map.insert("contentRating", contentRatingTree);
 
 		var scanner = new Scanner(System.in);
+		//noinspection InfiniteLoopStatement
 		while (true) {
+			var matchingIndices = new ArrayList<Integer>();
 			try {
 				System.out.print("Year: ");
 				var yearInput = scanner.next();
@@ -35,6 +39,9 @@ public class Main {
 					var yearResult =
 						((Tree<Integer, ArrayList<Integer>>) map.get("year").get())
 							.get(Integer.parseInt(yearInput));
+					if (yearResult.isPresent()) {
+						matchingIndices = yearResult.get();
+					}
 				}
 
 				System.out.print("Score: ");
@@ -48,6 +55,13 @@ public class Main {
 					var scoreResult =
 						((Tree<Movie.Score, ArrayList<Integer>>) map.get("score").get())
 							.get(score.get());
+					if (scoreResult.isPresent()) {
+						if (matchingIndices.isEmpty()) {
+							matchingIndices = scoreResult.get();
+						} else {
+							matchingIndices.retainAll(scoreResult.get());
+						}
+					}
 				}
 
 				System.out.print("Language: ");
@@ -56,20 +70,57 @@ public class Main {
 					var languageResult =
 						((Tree<String, ArrayList<Integer>>) map.get("language").get())
 							.get(languageInput);
+					if (languageResult.isPresent()) {
+						if (matchingIndices.isEmpty()) {
+							matchingIndices = languageResult.get();
+						} else {
+							matchingIndices.retainAll(languageResult.get());
+						}
+					}
 				}
 
 				System.out.print("Rating: ");
 				var ratingInput = scanner.next();
 				if (!ratingInput.equals("-")) {
-					var languageResult =
-						((Tree<String, ArrayList<Integer>>) map.get("rating").get())
+					var ratingResult =
+						((Tree<String, ArrayList<Integer>>) map.get("contentRating").get())
 							.get(ratingInput);
+					if (ratingResult.isPresent()) {
+						if (matchingIndices.isEmpty()) {
+							matchingIndices = ratingResult.get();
+						} else {
+							matchingIndices.retainAll(ratingResult.get());
+						}
+					}
 				}
+
+				System.out.println();
+				System.out.print("Results (Movies -> ");
+				if (!yearInput.equals("-")) {
+					System.out.print("year:" + yearInput);
+				}
+				if (!scoreInput.equals("-")) {
+					System.out.print("score:" + scoreInput);
+				}
+				if (!languageInput.equals("-")) {
+					System.out.print("language:" + languageInput);
+				}
+				if (!ratingInput.equals("-")) {
+					System.out.print("rating:" + ratingInput);
+				}
+				System.out.println(")");
 			} catch (InputMismatchException ignored) {
 				System.out.println("Invalid input");
 				continue;
 			}
 
+			System.out.println(matchingIndices);
+			for (var index : matchingIndices) {
+				System.out.println("-----------------------------");
+				System.out.println(movies[index]);
+				System.out.println("-----------------------------");
+				System.out.println();
+			}
 		}
 	}
 

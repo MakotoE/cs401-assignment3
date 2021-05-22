@@ -5,7 +5,7 @@ public class Movie {
 	public String color;
 	public String movieTitle;
 	public int duration;
-	public String directoryName;
+	public String directorName;
 	public String actor1Name;
 	public String actor2Name;
 	public String actor3Name;
@@ -21,7 +21,7 @@ public class Movie {
 		String color,
 		String movieTitle,
 		int duration,
-		String directoryName,
+		String directorName,
 		String actor1Name,
 		String actor2Name,
 		String actor3Name,
@@ -36,7 +36,7 @@ public class Movie {
 		this.color = color;
 		this.movieTitle = movieTitle;
 		this.duration = duration;
-		this.directoryName = directoryName;
+		this.directorName = directorName;
 		this.actor1Name = actor1Name;
 		this.actor2Name = actor2Name;
 		this.actor3Name = actor3Name;
@@ -46,6 +46,25 @@ public class Movie {
 		this.contentRating = contentRating;
 		this.year = year;
 		this.score = score;
+	}
+
+	@Override
+	public String toString() {
+		return
+			"id:" + id +
+			"\ncolor:" + color +
+			"\nmovieTitle:" + movieTitle +
+			"\nduration:" + duration +
+			"\ndirector_name:" + directorName +
+			"\nact1:" + actor1Name +
+			"\nact2:" + actor2Name +
+			"\nact3:" + actor3Name +
+			"\nmovie_imdb_link:" + movieIMDBLink +
+			"\nlanguage:" + language +
+			"\ncountry:" + country +
+			"\ncontent_rating:" + contentRating +
+			"\ntitle_year:" + year +
+			"\nimdb_score:" + score;
 	}
 
 	public static class Score implements Comparable<Score> {
