@@ -77,7 +77,7 @@ public class Movie {
 		public static Optional<Score> parse(String s) {
 			try {
 				return Optional.of(
-					new Score(Integer.parseInt(s.replaceAll("\\.", "")))
+					new Score((int)(Float.parseFloat(s) * 10))
 				);
 			} catch (NumberFormatException ignored) {
 				return Optional.empty();
