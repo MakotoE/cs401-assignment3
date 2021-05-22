@@ -7,11 +7,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
+	/**
+	 * Prompts for search strings of various fields and returns movies that match.
+	 */
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
 	public static void main(String[] args) throws IOException {
 		var file = Files.newBufferedReader(Path.of("movies.csv"));
 		var movies = Parser.parse(file);
 
+		// Index movies by field
 		var yearTree = new Tree<Integer, ArrayList<Integer>>();
 		var scoreTree = new Tree<Movie.Score, ArrayList<Integer>>();
 		var languageTree = new Tree<String, ArrayList<Integer>>();
@@ -31,6 +35,7 @@ public class Main {
 
 		final String ignoreCommand = "-";
 
+		// Input search strings
 		var scanner = new Scanner(System.in);
 		var matchingIndices = new ArrayList<Integer>();
 		String yearInput;

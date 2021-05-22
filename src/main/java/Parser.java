@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Parser {
+	/**
+	 * @param file Movie database file
+	 * @return Movies in database
+	 */
 	public static Movie[] parse(Readable file) {
 		var scanner = new Scanner(file);
 		scanner.useDelimiter("\\R");
@@ -54,6 +58,9 @@ public class Parser {
 		return s;
 	}
 
+	/**
+	 * Converts CSV-encoded line to strings.
+	 */
 	public static String[] readLine(String line) {
 		var fields = new ArrayList<String>(14);
 		boolean insideQuotes = false;

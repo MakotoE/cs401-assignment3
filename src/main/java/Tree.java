@@ -1,5 +1,10 @@
 import java.util.Optional;
 
+/**
+ * Red-black tree implementation.
+ * @param <K> key type
+ * @param <V> value type
+ */
 public class Tree<K extends Comparable<K>, V> {
 	private enum Color {
 		RED,
@@ -32,6 +37,9 @@ public class Tree<K extends Comparable<K>, V> {
 
 	private Node root;
 
+	/**
+	 * @return Value associated with key if it exists
+	 */
 	public Optional<V> get(K key) {
 		Node curr = root;
 		while (curr != null) {
@@ -47,6 +55,9 @@ public class Tree<K extends Comparable<K>, V> {
 		return Optional.empty();
 	}
 
+	/**
+	 * Inserts key and value to this tree.
+	 */
 	public void insert(K key, V value) {
 		root = insert(root, key, value);
 		root.color = Color.BLACK;

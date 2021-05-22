@@ -67,6 +67,9 @@ public class Movie {
 			"\nimdb_score:" + score;
 	}
 
+	/**
+	 * 0-10 rating with decimals.
+	 */
 	public static class Score implements Comparable<Score> {
 		private final int n;
 

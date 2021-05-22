@@ -3,6 +3,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Hash-based map.
+ * @param <K> key type
+ * @param <V> value type
+ */
 public class HashMap<K, V> {
 	private class Entry {
 		final K key;
@@ -24,6 +29,9 @@ public class HashMap<K, V> {
 		this.size = 0;
 	}
 
+	/**
+	 * Inserts key and value to this map.
+	 */
 	public void insert(K key, V value) {
 		int hash = Math.abs(key.hashCode());
 		int i = 0;
@@ -49,6 +57,9 @@ public class HashMap<K, V> {
 		}
 	}
 
+	/**
+	 * Retrieves value associated with key if it exists.
+	 */
 	public Optional<V> get(K key) {
 		if (array.size() == 0) {
 			return Optional.empty();
